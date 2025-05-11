@@ -4,6 +4,7 @@
   "description": "A comprehensive modern cloud architecture framework",
   "main": "src/index.html",
   "scripts": {
+    "dev": "vite",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
