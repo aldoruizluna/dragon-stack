@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAGON Stack v10/10 - Modern Cloud Architecture</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --accent-color: #8b5cf6;
+        }
+        .dark {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --card-bg: #1e293b;
+        }
+        .dark .bg-blue-100, .dark .bg-green-100, .dark .bg-yellow-100, 
+        .dark .bg-red-100, .dark .bg-purple-100, .dark .bg-pink-100,
+        .dark .bg-indigo-100, .dark .bg-gray-100 {
+            color: #0f172a; /* Dark text for light backgrounds in dark mode */
+        }
+        .dark .bg-blue-200, .dark .bg-green-200, .dark .bg-yellow-200, 
+        .dark .bg-red-200, .dark .bg-purple-200, .dark .bg-pink-200,
+        .dark .bg-indigo-200, .dark .bg-gray-200 {
+            color: #0f172a; /* Dark text for light backgrounds in dark mode */
+        }
+        .dark pre {
+            color: #f8fafc; /* Ensure code is readable */
+        }
+        .light {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --card-bg: #ffffff;
+        }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: var(--text-primary);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+        }
+        .tier-header {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .radar-chart {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        .radar-axis {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 1px;
+            transform-origin: center;
+        }
+        .radar-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px dashed var(--text-secondary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .radar-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .tier-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .t0-badge { background-color: #3b82f6; color: white; }
+        .t1-badge { background-color: #10b981; color: white; }
+        .t2-badge { background-color: #f59e0b; color: white; }
+        .t3-badge { background-color: #ef4444; color: white; }
+        .t4-badge { background-color: #8b5cf6; color: white; }
+        .t5-badge { background-color: #ec4899; color: white; }
+        .rating-stars {
+            color: #f59e0b;
+            font-size: 1.25rem;
+        }
+        .hidden-lang {
+            display: none;
+        }
+        .component-diagram {
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .diagram-box {
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 0.5rem;
+            margin: 0.5rem;
+            text-align: center;
+        }
+        .diagram-arrow {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="py-6 px-4 sm:px-6">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center flex-wrap">
+                <div>
+                    <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">
+                        🐉 DRAGON Stack v10/10
+                    </h1>
+                    <p class="text-lg mt-2 lang-en">A comprehensive modern cloud architecture framework</p>
+                    <p class="text-lg mt-2 lang-es hidden-lang">Un marco integral de arquitectura de nube moderna</p>
+                </div>
+                <div class="flex space-x-4 mt-4 sm:mt-0">
+                    <button id="lang-toggle" class="px-4 py-2 rounded-full bg-blue-600 text-white flex items-center">
+                        <span id="current-lang">EN</span>
+                        <i class="fas fa-language ml-2"></i>
+                    </button>
+                    <button id="theme-toggle" class="px-4 py-2 rounded-full bg-gray-700 text-white flex items-center">
+                        <i class="fas fa-moon"></i>
+                        <span class="ml-2">Theme</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 pb-12">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl font-bold mb-6">
+                <span class="lang-en">Refined Architecture</span>
+                <span class="lang-es hidden-lang">Arquitectura Refinada</span>
+            </h2>
+            <p class="text-xl max-w-3xl mx-auto">
+                <span class="lang-en">A comprehensive modern cloud architecture stack with tiered components</span>
+                <span class="lang-es hidden-lang">Una arquitectura moderna y completa para la nube con componentes escalonados</span>
+            </p>
+        </div>
+
+        <!-- Tier Overview Diagram -->
+        <div class="component-diagram mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <div class="diagram-box bg-blue-900 text-white">
+                    <h3 class="font-bold">T-0</h3>
+                    <p class="lang-en">Drive Core</p>
+                    <p class="lang-es hidden-lang">Núcleo de Impulso</p>
+                </div>
+                <div class="diagram-box bg-green-800 text-white">
+                    <h3 class="font-bold">T-1</h3>
+                    <p class="lang-en">Reactor</p>
+                    <p class="lang-es hidden-lang">Reactor</p>
+                </div>
+                <div class="diagram-box bg-yellow-700 text-white">
+                    <h3 class="font-bold">T-2</h3>
+                    <p class="lang-en">Ark</p>
+                    <p class="lang-es hidden-lang">Arca</p>
+                </div>
+                <div class="diagram-box bg-red-800 text-white">
+                    <h3 class="font-bold">T-3</h3>
+                    <p class="lang-en">Gateway</p>
+                    <p class="lang-es hidden-lang">Puerta</p>
+                </div>
+                <div class="diagram-box bg-purple-800 text-white">
+                    <h3 class="font-bold">T-4</h3>
+                    <p class="lang-en">Oracle</p>
+                    <p class="lang-es hidden-lang">Oráculo</p>
+                </div>
+                <div class="diagram-box bg-pink-800 text-white">
+                    <h3 class="font-bold">T-5</h3>
+                    <p class="lang-en">Nexus</p>
+                    <p class="lang-es hidden-lang">Nexo</p>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <div class="diagram-box bg-indigo-800 text-white inline-block">
+                    <h3 class="font-bold">✨ KubeVela</h3>
+                    <p class="lang-en">The Glue: App Delivery + Ops Framework</p>
+                    <p class="lang-es hidden-lang">El Pegamento: Framework de Entrega de Apps + Operaciones</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- T-0: Drive Core -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t0-badge">T-0</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Drive Core: Physical & Network Layer</span>
+                    <span class="lang-es hidden-lang">Núcleo de Impulso: Capa Física y de Red</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-server text-3xl text-blue-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🖥️ Bare-metal servers / ARM clusters</span>
+                            <span class="lang-es hidden-lang">🖥️ Servidores físicos / Clusters ARM</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Scaleway, Ampere, or RISC-V pilots</span>
+                        <span class="lang-es hidden-lang">Pilotos de Scaleway, Ampere o RISC-V</span>
+                    </p>
+                    <div class="flex justify-between mt-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                <i class="fas fa-microchip text-blue-600"></i>
+                            </div>
+                            <p class="mt-2">Scaleway</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                <i class="fas fa-bolt text-blue-600"></i>
+                            </div>
+                            <p class="mt-2">Ampere</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                <i class="fas fa-microchip text-blue-600"></i>
+                            </div>
+                            <p class="mt-2">RISC-V</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cube text-3xl text-blue-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧊 Talos Linux</span>
+                            <span class="lang-es hidden-lang">🧊 Talos Linux</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Immutable, API-driven, secure-by-default OS</span>
+                        <span class="lang-es hidden-lang">Sistema operativo inmutable, basado en API y seguro por defecto</span>
+                    </p>
+                    <div class="mt-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="lang-en">API-first</span>
+                            <span class="lang-es hidden-lang">API-primero</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-network-wired text-3xl text-blue-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🌐 Underlay Networking</span>
+                            <span class="lang-es hidden-lang">🌐 Redes Subyacentes</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">WireGuard mesh, Physical switches, Cilium (eBPF)</span>
+                        <span class="lang-es hidden-lang">Malla WireGuard, Switches físicos, Cilium (eBPF)</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-center">
+                            <i class="fas fa-shield-alt mb-2"></i>
+                            <p>WireGuard</p>
+                        </div>
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-center">
+                            <i class="fas fa-network-wired mb-2"></i>
+                            <p>Cilium</p>
+                        </div>
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-center">
+                            <i class="fas fa-microchip mb-2"></i>
+                            <p>eBPF</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- T-1: Reactor -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t1-badge">T-1</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Reactor: Kubernetes Fabric & Core Services</span>
+                    <span class="lang-es hidden-lang">Reactor: Tejido de Kubernetes y Servicios Básicos</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-dharmachakra text-3xl text-green-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">☸️ Upstream Kubernetes</span>
+                            <span class="lang-es hidden-lang">☸️ Kubernetes Upstream</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Via kubeadm or Cluster API for extensibility</span>
+                        <span class="lang-es hidden-lang">Vía kubeadm o API de Cluster para extensibilidad</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded text-center">
+                            <p>kubeadm</p>
+                        </div>
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded text-center">
+                            <p>Cluster API</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-seedling text-3xl text-green-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🌱 KubeVirt</span>
+                            <span class="lang-es hidden-lang">🌱 KubeVirt</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">VM orchestration for legacy systems or local dev</span>
+                        <span class="lang-es hidden-lang">Orquestación de máquinas virtuales para sistemas heredados o desarrollo local</span>
+                    </p>
+                    <div class="flex justify-between mt-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                <i class="fas fa-server text-green-600"></i>
+                            </div>
+                            <p class="mt-2 lang-en">VM Orchestration</p>
+                            <p class="mt-2 lang-es hidden-lang">Orquestación VM</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                <i class="fas fa-history text-green-600"></i>
+                            </div>
+                            <p class="mt-2 lang-en">Legacy Systems</p>
+                            <p class="mt-2 lang-es hidden-lang">Sistemas Heredados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-box-open text-3xl text-green-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📦 Add-ons</span>
+                            <span class="lang-es hidden-lang">📦 Complementos</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Storage, Ingress, TLS management</span>
+                        <span class="lang-es hidden-lang">Almacenamiento, Ingress, gestión de TLS</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded text-center">
+                            <i class="fas fa-hdd mb-1"></i>
+                            <p>Rook</p>
+                        </div>
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded text-center">
+                            <i class="fas fa-network-wired mb-1"></i>
+                            <p>Nginx Ingress</p>
+                        </div>
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded text-center">
+                            <i class="fas fa-lock mb-1"></i>
+                            <p>cert-manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cogs text-3xl text-green-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">⚙️ IaC</span>
+                            <span class="lang-es hidden-lang">⚙️ IaC</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Terraform + Crossplane</span>
+                        <span class="lang-es hidden-lang">Terraform + Crossplane</span>
+                    </p>
+                    <div class="flex items-center justify-center mt-4">
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                <i class="fas fa-globe text-green-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Terraform</p>
+                            <p class="text-sm lang-en">Initial provisioning</p>
+                            <p class="text-sm lang-es hidden-lang">Aprovisionamiento inicial</p>
+                        </div>
+                        <div class="mx-4 text-3xl">+</div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                <i class="fas fa-sync-alt text-green-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Crossplane</p>
+                            <p class="text-sm lang-en">Ongoing management</p>
+                            <p class="text-sm lang-es hidden-lang">Gestión continua</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- T-2: Ark -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t2-badge">T-2</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Ark: Data & Event Layer</span>
+                    <span class="lang-es hidden-lang">Arca: Capa de Datos y Eventos</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-folder-open text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📁 MinIO</span>
+                            <span class="lang-es hidden-lang">📁 MinIO</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">S3-compatible object store</span>
+                        <span class="lang-es hidden-lang">Almacenamiento de objetos compatible con S3</span>
+                    </p>
+                    <div class="mt-5">
+                        <div class="flex justify-between mb-2">
+                            <span class="lang-en">S3 Compatibility</span>
+                            <span class="lang-es hidden-lang">Compatibilidad S3</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-elephant text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🐘 Postgres</span>
+                            <span class="lang-es hidden-lang">🐘 Postgres</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Via Supabase self-hosted</span>
+                        <span class="lang-es hidden-lang">A través de Supabase auto-alojado</span>
+                    </p>
+                    <div class="bg-yellow-100 dark:bg-yellow-900 p-4 mt-4 rounded-lg text-center">
+                        <span class="font-bold">Supabase</span>
+                        <div class="mt-2 px-3 py-1 inline-block bg-yellow-200 dark:bg-yellow-800 rounded-full">
+                            OLTP
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-bar text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📊 ClickHouse + DuckDB</span>
+                            <span class="lang-es hidden-lang">📊 ClickHouse + DuckDB</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">For OLAP workloads</span>
+                        <span class="lang-es hidden-lang">Para cargas de trabajo OLAP</span>
+                    </p>
+                    <div class="bg-yellow-100 dark:bg-yellow-900 p-4 mt-4 rounded-lg text-center">
+                        <div class="flex justify-center gap-4">
+                            <div>
+                                <i class="fas fa-database text-2xl"></i>
+                                <p>OLAP</p>
+                            </div>
+                            <div>
+                                <i class="fas fa-chart-pie text-2xl"></i>
+                                <p>Analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-stream text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📤 Kafka or Redpanda</span>
+                            <span class="lang-es hidden-lang">📤 Kafka o Redpanda</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">For event streaming / CQRS / DDD</span>
+                        <span class="lang-es hidden-lang">Para streaming de eventos / CQRS / DDD</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded">
+                            <i class="fas fa-exchange-alt mb-2"></i>
+                            <p>Streaming</p>
+                        </div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded">
+                            <i class="fas fa-code-branch mb-2"></i>
+                            <p>CQRS</p>
+                        </div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded">
+                            <i class="fas fa-project-diagram mb-2"></i>
+                            <p>DDD</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-brain text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧠 Cube</span>
+                            <span class="lang-es hidden-lang">🧠 Cube</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Semantic layer for BI & metrics unification</span>
+                        <span class="lang-es hidden-lang">Capa semántica para BI y unificación de métricas</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
+                            <i class="fas fa-chart-line text-2xl mb-2"></i>
+                            <p>BI</p>
+                        </div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
+                            <i class="fas fa-tachometer-alt text-2xl mb-2"></i>
+                            <p>Metrics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-clock text-3xl text-yellow-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧵 Temporal</span>
+                            <span class="lang-es hidden-lang">🧵 Temporal</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">For orchestrating async workflows</span>
+                        <span class="lang-es hidden-lang">Para orquestar flujos de trabajo asíncronos</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
+                            <i class="fas fa-hourglass-half text-2xl mb-2"></i>
+                            <p>Async</p>
+                        </div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
+                            <i class="fas fa-sitemap text-2xl mb-2"></i>
+                            <p>Workflows</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- T-3: Gateway -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t3-badge">T-3</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Gateway: Domain Apps & Services</span>
+                    <span class="lang-es hidden-lang">Puerta: Aplicaciones de Dominio y Servicios</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-shopping-bag text-3xl text-red-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🛍️ Domain Applications</span>
+                            <span class="lang-es hidden-lang">🛍️ Aplicaciones de Dominio</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">ERPNext, MedusaJS, Strapi, n8n, Open edX</span>
+                        <span class="lang-es hidden-lang">ERPNext, MedusaJS, Strapi, n8n, Open edX</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded text-center">
+                            <p>ERPNext</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded text-center">
+                            <p>MedusaJS</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded text-center">
+                            <p>Strapi</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded text-center">
+                            <p>n8n</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded text-center">
+                            <p>Open edX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-robot text-3xl text-red-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🤖 AI Tools</span>
+                            <span class="lang-es hidden-lang">🤖 Herramientas de IA</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Langflow, Flowise, or Agent-LLM</span>
+                        <span class="lang-es hidden-lang">Langflow, Flowise, o Agent-LLM</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <i class="fas fa-project-diagram mb-2"></i>
+                            <p>Langflow</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <i class="fas fa-share-alt mb-2"></i>
+                            <p>Flowise</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <i class="fas fa-brain mb-2"></i>
+                            <p>Agent-LLM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-brain text-3xl text-red-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧠 API Generation</span>
+                            <span class="lang-es hidden-lang">🧠 Generación de API</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Hasura or PostgREST for auto-GraphQL APIs</span>
+                        <span class="lang-es hidden-lang">Hasura o PostgREST para APIs GraphQL automáticas</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <p>Hasura</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <p>PostgREST</p>
+                        </div>
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded text-center">
+                            <p>GraphQL</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-project-diagram text-3xl text-red-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🌉 API Management</span>
+                            <span class="lang-es hidden-lang">🌉 Gestión de API</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Kong Gateway + OPA (Open Policy Agent)</span>
+                        <span class="lang-es hidden-lang">Kong Gateway + OPA (Open Policy Agent)</span>
+                    </p>
+                    <div class="flex justify-center items-center mt-6">
+                        <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg text-center w-full">
+                            <div class="flex justify-between items-center">
+                                <div class="text-center flex-1">
+                                    <p class="font-bold">Kong Gateway</p>
+                                    <i class="fas fa-sitemap mt-2 text-xl"></i>
+                                </div>
+                                <div class="text-2xl mx-4">+</div>
+                                <div class="text-center flex-1">
+                                    <p class="font-bold">OPA</p>
+                                    <i class="fas fa-shield-alt mt-2 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-traffic-light text-3xl text-red-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🚦 Deployment Strategies</span>
+                            <span class="lang-es hidden-lang">🚦 Estrategias de Despliegue</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">KubeVela or Argo Rollouts for canary & blue-green</span>
+                        <span class="lang-es hidden-lang">KubeVela o Argo Rollouts para despliegues canary y blue-green</span>
+                    </p>
+                    <div class="flex justify-center gap-4 mt-4">
+                        <div class="bg-blue-500 p-4 rounded-lg flex-1 text-center text-white">
+                            <span class="lang-en">Blue Version</span>
+                            <span class="lang-es hidden-lang">Versión Azul</span>
+                        </div>
+                        <div class="bg-green-500 p-4 rounded-lg flex-1 text-center text-white">
+                            <span class="lang-en">Green Version</span>
+                            <span class="lang-es hidden-lang">Versión Verde</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- T-4: Oracle -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t4-badge">T-4</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Oracle: Enablement, Observability, Ops</span>
+                    <span class="lang-es hidden-lang">Oráculo: Habilitación, Observabilidad, Operaciones</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-line text-3xl text-purple-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📊 Monitoring Stack</span>
+                            <span class="lang-es hidden-lang">📊 Stack de Monitoreo</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Prometheus + OpenTelemetry + Tempo</span>
+                        <span class="lang-es hidden-lang">Prometheus + OpenTelemetry + Tempo</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded text-center">
+                            <i class="fas fa-fire text-xl mb-2"></i>
+                            <p>Prometheus</p>
+                        </div>
+                        <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded text-center">
+                            <i class="fas fa-broadcast-tower text-xl mb-2"></i>
+                            <p>OpenTelemetry</p>
+                        </div>
+                        <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded text-center">
+                            <i class="fas fa-tachometer-alt text-xl mb-2"></i>
+                            <p>Tempo</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-bar text-3xl text-purple-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📈 Visualization</span>
+                            <span class="lang-es hidden-lang">📈 Visualización</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Grafana + Grafana OnCall + Loki (logs)</span>
+                        <span class="lang-es hidden-lang">Grafana + Grafana OnCall + Loki (logs)</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+                        <div class="p-3">
+                            <span class="lang-en">Metrics</span>
+                            <span class="lang-es hidden-lang">Métricas</span>
+                        </div>
+                        <div class="p-3">
+                            <span class="lang-en">Traces</span>
+                            <span class="lang-es hidden-lang">Trazas</span>
+                        </div>
+                        <div class="p-3">
+                            <span class="lang-en">Logs</span>
+                            <span class="lang-es hidden-lang">Logs</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 bg-purple-100 dark:bg-purple-900 p-3 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-area mr-2"></i>
+                        <span class="font-bold">Grafana</span>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-flag text-3xl text-purple-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧪 Feature flags</span>
+                            <span class="lang-es hidden-lang">🧪 Banderas de Características</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">GrowthBook + Unleash</span>
+                        <span class="lang-es hidden-lang">GrowthBook + Unleash</span>
+                    </p>
+                    <div class="flex justify-center gap-6 mt-6">
+                        <div class="toggle-switch">
+                            <div class="relative">
+                                <div class="w-16 h-8 bg-gray-400 rounded-full"></div>
+                                <div class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full"></div>
+                                <div class="mt-2">Feature A</div>
+                            </div>
+                        </div>
+                        <div class="toggle-switch">
+                            <div class="relative">
+                                <div class="w-16 h-8 bg-green-500 rounded-full"></div>
+                                <div class="absolute left-9 top-1 w-6 h-6 bg-white rounded-full"></div>
+                                <div class="mt-2">Feature B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-archive text-3xl text-purple-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🔄 Backups</span>
+                            <span class="lang-es hidden-lang">🔄 Copias de Seguridad</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Velero + Restic</span>
+                        <span class="lang-es hidden-lang">Velero + Restic</span>
+                    </p>
+                    <div class="flex justify-center gap-4 mt-6">
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                <i class="fas fa-life-ring text-purple-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Velero</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                <i class="fas fa-database text-purple-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Restic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-heartbeat text-3xl text-purple-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">💥 Self-healing</span>
+                            <span class="lang-es hidden-lang">💥 Auto-reparación</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Chaos Mesh for testing resilience</span>
+                        <span class="lang-es hidden-lang">Chaos Mesh para pruebas de resiliencia</span>
+                    </p>
+                    <div class="relative mt-6 p-4 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                        <div class="text-center">
+                            <i class="fas fa-random text-3xl mb-2"></i>
+                            <p class="font-bold">Chaos Testing</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mt-3">
+                            <div class="bg-red-200 dark:bg-red-900 p-1 rounded text-center">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="bg-yellow-200 dark:bg-yellow-900 p-1 rounded text-center">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="bg-blue-200 dark:bg-blue-900 p-1 rounded text-center">
+                                <i class="fas fa-memory"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- T-5: Nexus -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <span class="tier-badge t5-badge">T-5</span>
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Nexus: Platform Services</span>
+                    <span class="lang-es hidden-lang">Nexo: Servicios de Plataforma</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-lock text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🔐 Security</span>
+                            <span class="lang-es hidden-lang">🔐 Seguridad</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">HashiCorp Vault + Keycloak</span>
+                        <span class="lang-es hidden-lang">HashiCorp Vault + Keycloak</span>
+                    </p>
+                    <div class="flex justify-center gap-4 mt-6">
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-pink-100 dark:bg-pink-900 flex items-center justify-center">
+                                <i class="fas fa-key text-pink-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Vault</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-pink-100 dark:bg-pink-900 flex items-center justify-center">
+                                <i class="fas fa-user-shield text-pink-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Keycloak</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-seedling text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🌱 GitOps</span>
+                            <span class="lang-es hidden-lang">🌱 GitOps</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Argo CD + Vela CLI (for developers)</span>
+                        <span class="lang-es hidden-lang">Argo CD + Vela CLI (para desarrolladores)</span>
+                    </p>
+                    <div class="flex justify-center gap-4 mt-6">
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-pink-100 dark:bg-pink-900 flex items-center justify-center">
+                                <i class="fas fa-sync-alt text-pink-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Argo CD</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-pink-100 dark:bg-pink-900 flex items-center justify-center">
+                                <i class="fas fa-terminal text-pink-600 text-2xl"></i>
+                            </div>
+                            <p class="mt-2">Vela CLI</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-arrows-alt-v text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">⚖️ Autoscaling</span>
+                            <span class="lang-es hidden-lang">⚖️ Auto-escalado</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Karpenter + VPA + KEDA</span>
+                        <span class="lang-es hidden-lang">Karpenter + VPA + KEDA</span>
+                    </p>
+                    <div class="mt-4 text-center">
+                        <div class="inline-block bg-pink-100 dark:bg-pink-900 p-4 rounded-lg">
+                            <p class="font-bold lang-en">Dynamic scaling</p>
+                            <p class="font-bold lang-es hidden-lang">Escalado dinámico</p>
+                            <div class="flex justify-center mt-2 space-x-1">
+                                <div class="h-4 w-2 bg-pink-400"></div>
+                                <div class="h-6 w-2 bg-pink-500"></div>
+                                <div class="h-8 w-2 bg-pink-600"></div>
+                                <div class="h-10 w-2 bg-pink-700"></div>
+                                <div class="h-12 w-2 bg-pink-800"></div>
+                                <div class="h-10 w-2 bg-pink-700"></div>
+                                <div class="h-8 w-2 bg-pink-600"></div>
+                                <div class="h-6 w-2 bg-pink-500"></div>
+                                <div class="h-4 w-2 bg-pink-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-layer-group text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🔗 Multi-cluster Platform</span>
+                            <span class="lang-es hidden-lang">🔗 Plataforma Multi-cluster</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Crossplane + KubeFed or Submariner</span>
+                        <span class="lang-es hidden-lang">Crossplane + KubeFed o Submariner</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-pink-100 dark:bg-pink-900 p-3 rounded text-center">
+                            <p>Crossplane</p>
+                        </div>
+                        <div class="bg-pink-100 dark:bg-pink-900 p-3 rounded text-center">
+                            <p>KubeFed</p>
+                        </div>
+                        <div class="bg-pink-100 dark:bg-pink-900 p-3 rounded text-center">
+                            <p>Submariner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-laptop-code text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧩 Developer Portal</span>
+                            <span class="lang-es hidden-lang">🧩 Portal para Desarrolladores</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Backstage</span>
+                        <span class="lang-es hidden-lang">Backstage</span>
+                    </p>
+                    <div class="mt-4 bg-pink-100 dark:bg-pink-900 p-4 rounded-lg text-center">
+                        <div class="font-bold mb-2">Backstage</div>
+                        <p class="lang-en">Core Component</p>
+                        <p class="lang-es hidden-lang">Componente Principal</p>
+                        <div class="grid grid-cols-3 gap-2 mt-3">
+                            <div class="bg-pink-200 dark:bg-pink-800 p-2 rounded">API</div>
+                            <div class="bg-pink-200 dark:bg-pink-800 p-2 rounded">Docs</div>
+                            <div class="bg-pink-200 dark:bg-pink-800 p-2 rounded">Tools</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Glue: KubeVela -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">✨ The Glue: KubeVela (App Delivery + Ops Framework)</span>
+                    <span class="lang-es hidden-lang">✨ El Pegamento: KubeVela (Framework de Entrega de Aplicaciones + Operaciones)</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cubes text-3xl text-indigo-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">Declarative Components</span>
+                            <span class="lang-es hidden-lang">Componentes Declarativos</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Components, Traits, Workflows</span>
+                        <span class="lang-es hidden-lang">Componentes, Rasgos, Flujos de trabajo</span>
+                    </p>
+                    <div class="bg-indigo-100 dark:bg-indigo-900 p-4 rounded-lg mt-4">
+                        <pre class="text-sm overflow-auto p-2">
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: example-app
+spec:
+  components:
+    - name: frontend
+      type: webservice
+      properties:
+        image: example/frontend:v1</pre>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cog text-3xl text-indigo-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">Automation</span>
+                            <span class="lang-es hidden-lang">Automatización</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Rollout, promotion, env-to-env migration</span>
+                        <span class="lang-es hidden-lang">Despliegue, promoción, migración entre entornos</span>
+                    </p>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-blue-200 dark:bg-blue-900 flex items-center justify-center">
+                                <span class="text-sm">DEV</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-green-200 dark:bg-green-900 flex items-center justify-center">
+                                <span class="text-sm">STAGE</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-purple-200 dark:bg-purple-900 flex items-center justify-center">
+                                <span class="text-sm">PROD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-plug text-3xl text-indigo-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">Integrations</span>
+                            <span class="lang-es hidden-lang">Integraciones</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Works with Argo CD, Terraform, Helm, OAM</span>
+                        <span class="lang-es hidden-lang">Funciona con Argo CD, Terraform, Helm, OAM</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-3 rounded text-center">
+                            <i class="fas fa-sync-alt mb-2"></i>
+                            <p>Argo CD</p>
+                        </div>
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-3 rounded text-center">
+                            <i class="fas fa-globe mb-2"></i>
+                            <p>Terraform</p>
+                        </div>
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-3 rounded text-center">
+                            <i class="fas fa-ship mb-2"></i>
+                            <p>Helm</p>
+                        </div>
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-3 rounded text-center">
+                            <i class="fas fa-cube mb-2"></i>
+                            <p>OAM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Extras for 10/10 Polish -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">✅ Extras for 10/10 Polish</span>
+                    <span class="lang-es hidden-lang">✅ Extras para un Pulido 10/10</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-file-code text-3xl text-gray-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🧬 Policy-as-Code</span>
+                            <span class="lang-es hidden-lang">🧬 Política como Código</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Kyverno or Gatekeeper for cluster hygiene</span>
+                        <span class="lang-es hidden-lang">Kyverno o Gatekeeper para la higiene del clúster</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded text-center">
+                            <p>Kyverno</p>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded text-center">
+                            <p>Gatekeeper</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tools text-3xl text-gray-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">🛠️ Developer Experience</span>
+                            <span class="lang-es hidden-lang">🛠️ Experiencia de Desarrollador</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">Dagger.io or DevSpace for CI/CD pipelines</span>
+                        <span class="lang-es hidden-lang">Dagger.io o DevSpace para pipelines de CI/CD</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded text-center">
+                            <p>Dagger.io</p>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded text-center">
+                            <p>DevSpace</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-mobile-alt text-3xl text-gray-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">
+                            <span class="lang-en">📱 Edge/IoT Option</span>
+                            <span class="lang-es hidden-lang">📱 Opción Edge/IoT</span>
+                        </h3>
+                    </div>
+                    <p class="mb-4">
+                        <span class="lang-en">K3s + MQTT + InfluxDB for hybrid extensions</span>
+                        <span class="lang-es hidden-lang">K3s + MQTT + InfluxDB para extensiones híbridas</span>
+                    </p>
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded text-center">
+                            <p>K3s</p>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded text-center">
+                            <p>MQTT</p>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded text-center">
+                            <p>InfluxDB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overall Ratings -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">🧠 Overall Ratings</span>
+                    <span class="lang-es hidden-lang">🧠 Calificaciones Generales</span>
+                </h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-transparent">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-4 text-left border-b dark:border-gray-700">
+                                <span class="lang-en">Category</span>
+                                <span class="lang-es hidden-lang">Categoría</span>
+                            </th>
+                            <th class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <span class="lang-en">Score</span>
+                                <span class="lang-es hidden-lang">Puntuación</span>
+                            </th>
+                            <th class="py-3 px-4 text-left border-b dark:border-gray-700">
+                                <span class="lang-en">Notes</span>
+                                <span class="lang-es hidden-lang">Notas</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Modularity</span>
+                                <span class="lang-es hidden-lang">Modularidad</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Clean tiering (T-0 to T-5)</span>
+                                <span class="lang-es hidden-lang">Niveles limpios (T-0 a T-5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Declarativity</span>
+                                <span class="lang-es hidden-lang">Declaratividad</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">GitOps, KubeVela, Crossplane</span>
+                                <span class="lang-es hidden-lang">GitOps, KubeVela, Crossplane</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Observability</span>
+                                <span class="lang-es hidden-lang">Observabilidad</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Full stack + chaos testing</span>
+                                <span class="lang-es hidden-lang">Stack completo + pruebas de caos</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Scalability</span>
+                                <span class="lang-es hidden-lang">Escalabilidad</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">From solo node to multi-cluster</span>
+                                <span class="lang-es hidden-lang">Desde nodo único hasta multi-cluster</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">DevEx</span>
+                                <span class="lang-es hidden-lang">DevEx</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Vela CLI + Backstage + APIs</span>
+                                <span class="lang-es hidden-lang">Vela CLI + Backstage + APIs</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Future-readiness</span>
+                                <span class="lang-es hidden-lang">Preparación para el futuro</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">LLMs, streaming, policies, mesh</span>
+                                <span class="lang-es hidden-lang">LLMs, streaming, políticas, mallas</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Security & IAM</span>
+                                <span class="lang-es hidden-lang">Seguridad y IAM</span>
+                            </td>
+                            <td class="py-3 px-4 text-center border-b dark:border-gray-700">
+                                <div class="rating-stars">★★★★★</div>
+                            </td>
+                            <td class="py-3 px-4 border-b dark:border-gray-700">
+                                <span class="lang-en">Vault, Keycloak, OPA</span>
+                                <span class="lang-es hidden-lang">Vault, Keycloak, OPA</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Capabilities Radar Chart -->
+        <section class="mb-16">
+            <div class="tier-header">
+                <h2 class="text-2xl font-bold inline-block">
+                    <span class="lang-en">Capabilities Radar</span>
+                    <span class="lang-es hidden-lang">Radar de Capacidades</span>
+                </h2>
+            </div>
+            
+            <div class="radar-chart mb-8">
+                <!-- Circles -->
+                <div class="radar-circle" style="width: 100%; height: 100%;"></div>
+                <div class="radar-circle" style="width: 75%; height: 75%;"></div>
+                <div class="radar-circle" style="width: 50%; height: 50%;"></div>
+                <div class="radar-circle" style="width: 25%; height: 25%;"></div>
+                
+                <!-- Axes -->
+                <div class="radar-axis" style="transform: rotate(0deg)"></div>
+                <div class="radar-axis" style="transform: rotate(60deg)"></div>
+                <div class="radar-axis" style="transform: rotate(120deg)"></div>
+                <div class="radar-axis" style="transform: rotate(180deg)"></div>
+                <div class="radar-axis" style="transform: rotate(240deg)"></div>
+                <div class="radar-axis" style="transform: rotate(300deg)"></div>
+                
+                <!-- Labels -->
+                <div style="position: absolute; top: 5px; left: 50%; transform: translateX(-50%); text-align: center;">
+                    <span class="lang-en">Security</span>
+                    <span class="lang-es hidden-lang">Seguridad</span>
+                </div>
+                <div style="position: absolute; top: 25%; right: 10%; text-align: right;">
+                    <span class="lang-en">Scalability</span>
+                    <span class="lang-es hidden-lang">Escalabilidad</span>
+                </div>
+                <div style="position: absolute; bottom: 25%; right: 10%; text-align: right;">
+                    <span class="lang-en">Observability</span>
+                    <span class="lang-es hidden-lang">Observabilidad</span>
+                </div>
+                <div style="position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); text-align: center;">
+                    <span class="lang-en">DevEx</span>
+                    <span class="lang-es hidden-lang">DevEx</span>
+                </div>
+                <div style="position: absolute; bottom: 25%; left: 10%; text-align: left;">
+                    <span class="lang-en">Automation</span>
+                    <span class="lang-es hidden-lang">Automatización</span>
+                </div>
+                <div style="position: absolute; top: 25%; left: 10%; text-align: left;">
+                    <span class="lang-en">Modularity</span>
+                    <span class="lang-es hidden-lang">Modularidad</span>
+                </div>
+                
+                <!-- Data Points (perfect score) -->
+                <div class="radar-point" style="top: 12%; left: 50%;"></div>
+                <div class="radar-point" style="top: 28%; left: 82%;"></div>
+                <div class="radar-point" style="top: 72%; left: 82%;"></div>
+                <div class="radar-point" style="top: 88%; left: 50%;"></div>
+                <div class="radar-point" style="top: 72%; left: 18%;"></div>
+                <div class="radar-point" style="top: 28%; left: 18%;"></div>
+            </div>
+            
+            <div class="polyline" style="position: absolute; top: 0; left: 0; z-index: -1;"></div>
+        </section>
+    </main>
+
+    <footer class="py-6 px-4 sm:px-6 bg-gray-800 text-white">
+        <div class="container mx-auto text-center">
+            <p>🐉 DRAGON Stack v10/10 - Modern Cloud Architecture</p>
+            <p class="mt-2 text-sm">
+                <span class="lang-en">A comprehensive modern cloud architecture framework with tiered components</span>
+                <span class="lang-es hidden-lang">Un marco integral de arquitectura de nube moderna con componentes escalonados</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        function toggleTheme() {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i><span class="ml-2">Theme</span>';
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i><span class="ml-2">Theme</span>';
+            }
+        }
+        
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // Language toggle functionality
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const currentLangSpan = document.getElementById('current-lang');
+        const enElements = document.querySelectorAll('.lang-en');
+        const esElements = document.querySelectorAll('.lang-es');
+        
+        function toggleLanguage() {
+            if (currentLangSpan.textContent === 'EN') {
+                currentLangSpan.textContent = 'ES';
+                enElements.forEach(el => el.classList.add('hidden-lang'));
+                esElements.forEach(el => el.classList.remove('hidden-lang'));
+            } else {
+                currentLangSpan.textContent = 'EN';
+                esElements.forEach(el => el.classList.add('hidden-lang'));
+                enElements.forEach(el => el.classList.remove('hidden-lang'));
+            }
+        }
+        
+        langToggleBtn.addEventListener('click', toggleLanguage);
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDov4E8OS7tRgokL%2BacfsfVr01LlAnhZNispIayeTV46WP9bu%2BT%2Fv66S5Cqg4ogUQv70BTPzJh%2BILreFSeB%2Fm%2FEl9XymvFAdsUqNkcQLXeD451t6zc29vElbs%2F9%2Bkj9y%2BnzLQ1fPuOtvsGmjPEsCzgHdpMU%2BPfz86ZRpDA2T4AE0%2BbxYU%2FojhMrobPyRRCO6dh8bwcANnVBe9U6c4pbxFnT%2BVAmig01k5HRLi1TliNKrrP1khF0lniu48CRIzKq4RIWtpstLSXov1sDcEuOCntybwiuUgyT%2B9qsYvecsam2sHOk2vGB1OuVTKNZy5DUgSV6YKo12C3sv%2BhJppZwcvoH%2BBJiWjXMBH60WiYjTI76t7cdiib667noPpFiWcqLR6RrymIr503%2BRLAGYjRAABZwwB68DQnfamQLamUc%2Fl3ktO45oZ7MokdSPzKR2NUoXy9SRR5aVd8rhj0cbyABu%2BvGGkfF1ONmZJ03VpFLnjzbow1GLH4MPkLXHKfjZArCZR6gYkpIdmOlaAIvxLxVJeE98%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDov4E8OS7tRgokL+acfsfVr01LlAnhZNispIayeTV46WP9bu+T/v66S5Cqg4ogUQv70BTPzJh+ILreFSeB/m/El9XymvFAdsUqNkcQLXeD451t6zc29vElbs/9+kj9y+nzLQ1fPuOtvsGmjPEsCzgHdpMU+Pfz86ZRpDA2T4AE0+bxYU/ojhMrobPyRRCO6dh8bwcANnVBe9U6c4pbxFnT+VAmig01k5HRLi1TliNKrrP1khF0lniu48CRIzKq4RIWtpstLSXov1sDcEuOCntybwiuUgyT+9qsYvecsam2sHOk2vGB1OuVTKNZy5DUgSV6YKo12C3sv+hJppZwcvoH+BJiWjXMBH60WiYjTI76t7cdiib667noPpFiWcqLR6RrymIr503+RLAGYjRAABZwwB68DQnfamQLamUc/l3ktO45oZ7MokdSPzKR2NUoXy9SRR5aVd8rhj0cbyABu+vGGkfF1ONmZJ03VpFLnjzbow1GLH4MPkLXHKfjZArCZR6gYkpIdmOlaAIvxLxVJeE98=";
+    </script>
+    
+        <script id="html_badge_script2" src="https://www.genspark.ai/html_badge.js"></script>
+        
