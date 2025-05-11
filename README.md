@@ -1,13 +1,19 @@
+<div align="center">
+
 # 🐉 DRAGON Stack - Marketing & Documentation
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![GitHub Pages](https://img.shields.io/badge/View_on-GitHub_Pages-blue?logo=github)](https://aldoruizluna.github.io/dragon-stack/)
+[![GitHub Pages](https://img.shields.io/badge/View_Live-GitHub_Pages-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://aldoruizluna.github.io/dragon-stack/)
 
-This is the official marketing and documentation website for the DRAGON Stack - a comprehensive modern cloud architecture framework. The actual implementation of the DRAGON Stack will be available in a separate repository.
+</div>
 
-🌐 **Live Demo:** [https://aldoruizluna.github.io/dragon-stack/](https://aldoruizluna.github.io/dragon-stack/)
+## 🌐 [View Live Website](https://aldoruizluna.github.io/dragon-stack/)
+
+Welcome to the official marketing and documentation website for the **DRAGON Stack** - a comprehensive modern cloud architecture framework. This site serves as the primary resource for learning about the DRAGON Stack architecture, its components, and best practices.
+
+> **Note:** The actual implementation of the DRAGON Stack will be available in a separate repository. This repository contains the marketing website and documentation.
 
 ## 📌 About This Repository
 
