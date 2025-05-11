@@ -1,14 +1,44 @@
-# Dragon Stack
+# 🐉 DRAGON Stack v10/10
 
-A modern web application built with [brief description of the technology stack].
+A comprehensive modern cloud architecture framework designed for building scalable, resilient, and maintainable cloud-native applications. The DRAGON Stack provides a structured approach to cloud architecture with a focus on modularity, scalability, and operational excellence.
 
-## 🚀 Features
+## 🌟 Core Tiers
 
-- Feature 1
-- Feature 2
-- Feature 3
+DRAGON Stack is organized into six tiers, each serving a specific purpose in the architecture:
 
-## 🛠️ Installation
+1. **T-0: Drive Core** - Physical & Network Layer
+   - Bare metal infrastructure
+   - Network architecture
+   - Hardware resources
+
+2. **T-1: Reactor** - Kubernetes Fabric & Core Services
+   - Container orchestration
+   - Service mesh
+   - Infrastructure automation
+
+3. **T-2: Ark** - Data & Event Layer
+   - Data storage solutions
+   - Event streaming
+   - Data processing
+
+4. **T-3: Gateway** - Domain Apps & Services
+   - Business applications
+   - API management
+   - Domain-specific services
+
+5. **T-4: Oracle** - Enablement, Observability, Ops
+   - Monitoring & logging
+   - CI/CD pipelines
+   - Security & compliance
+
+6. **T-5: Nexus** - Platform Services
+   - Cross-cutting concerns
+   - Shared services
+   - Platform tooling
+
+## 🚀 Getting Started
+
+To explore the DRAGON Stack architecture:
 
 1. Clone the repository:
    ```bash
@@ -16,23 +46,23 @@ A modern web application built with [brief description of the technology stack].
    cd dragon-stack
    ```
 
-2. Install dependencies:
-   ```bash
-   npm install  # or yarn install
-   ```
+2. Open `index.htm` in your web browser to view the interactive architecture documentation.
 
-3. Start the development server:
-   ```bash
-   npm start    # or yarn start
-   ```
+## 🌐 Features
 
-## 📦 Project Structure
+- **Interactive Architecture Visualization** - Explore the complete cloud architecture
+- **Tiered Structure** - Clear separation of concerns across six architectural tiers
+- **Bilingual Support** - Toggle between English and Spanish
+- **Dark/Light Mode** - Choose your preferred theme
+- **Detailed Component Breakdown** - Understand each layer's components and their interactions
+
+## 🏗️ Project Structure
 
 ```
 .
-├── index.htm           # Main HTML entry point
-├── README.md          # This file
-└── ...                # Other project files
+├── index.htm           # Interactive architecture documentation
+├── README.md          # Project documentation
+└── assets/            # Static assets (if any)
 ```
 
 ## 🤝 Contributing
