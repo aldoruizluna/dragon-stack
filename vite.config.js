@@ -4,18 +4,19 @@ import { resolve } from 'path';
 export default defineConfig({
   root: '.',
   publicDir: 'public',
-  appType: 'mpa', // Multi-Page Application mode
+  appType: 'mpa',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.htm'),
+        landing: resolve(__dirname, 'landing.html')
       },
     },
   },
   server: {
-    open: '/index.htm',
+    open: '/',
     host: true,
   },
 });
