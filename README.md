@@ -1,44 +1,47 @@
-# 🐉 DRAGON Stack v10/10
+# 🐉 DRAGON Stack - Marketing & Documentation
 
-A comprehensive modern cloud architecture framework designed for building scalable, resilient, and maintainable cloud-native applications. The DRAGON Stack provides a structured approach to cloud architecture with a focus on modularity, scalability, and operational excellence.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![GitHub Pages](https://img.shields.io/badge/View_on-GitHub_Pages-blue?logo=github)](https://aldoruizluna.github.io/dragon-stack/)
 
-## 🌟 Core Tiers
+This is the official marketing and documentation website for the DRAGON Stack - a comprehensive modern cloud architecture framework. The actual implementation of the DRAGON Stack will be available in a separate repository.
 
-DRAGON Stack is organized into six tiers, each serving a specific purpose in the architecture:
+🌐 **Live Demo:** [https://aldoruizluna.github.io/dragon-stack/](https://aldoruizluna.github.io/dragon-stack/)
 
-1. **T-0: Drive Core** - Physical & Network Layer
-   - Bare metal infrastructure
-   - Network architecture
-   - Hardware resources
+## 📌 About This Repository
 
-2. **T-1: Reactor** - Kubernetes Fabric & Core Services
-   - Container orchestration
-   - Service mesh
-   - Infrastructure automation
+This repository contains the marketing website and documentation for the DRAGON Stack. It's built with modern web technologies to provide an engaging and informative experience.
 
-3. **T-2: Ark** - Data & Event Layer
-   - Data storage solutions
-   - Event streaming
-   - Data processing
+### Features
 
-4. **T-3: Gateway** - Domain Apps & Services
-   - Business applications
-   - API management
-   - Domain-specific services
+- **Responsive Design** - Works on all devices from mobile to desktop
+- **Dark/Light Mode** - Built-in theme support with system preference detection
+- **Internationalization** - Support for multiple languages
+- **Performance Optimized** - Fast loading with modern optimizations
+- **Offline Support** - Service Worker for offline functionality
 
-5. **T-4: Oracle** - Enablement, Observability, Ops
-   - Monitoring & logging
-   - CI/CD pipelines
-   - Security & compliance
+## 🌟 About DRAGON Stack
 
-6. **T-5: Nexus** - Platform Services
-   - Cross-cutting concerns
-   - Shared services
-   - Platform tooling
+DRAGON Stack is a comprehensive modern cloud architecture framework designed for building scalable, resilient, and maintainable cloud-native applications. It provides a structured approach to cloud architecture with a focus on modularity, scalability, and operational excellence.
+
+The actual implementation of the DRAGON Stack will be available in a separate repository. This site serves as the official documentation and marketing presence for the project.
+
+### Core Components
+
+- **Modular Architecture** - Designed for flexibility and scalability
+- **Cloud-Native** - Built for modern cloud environments
+- **Developer Experience** - Focus on developer productivity
+- **Enterprise Ready** - Designed with enterprise needs in mind
 
 ## 🚀 Getting Started
 
-To explore the DRAGON Stack architecture:
+### Prerequisites
+
+- Node.js 16+ and npm 8+
+- Modern web browser (Chrome, Firefox, Safari, or Edge)
+
+### Installation
 
 1. Clone the repository:
    ```bash
@@ -46,24 +49,112 @@ To explore the DRAGON Stack architecture:
    cd dragon-stack
    ```
 
-2. Open `index.htm` in your web browser to view the interactive architecture documentation.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## 🌐 Features
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- **Interactive Architecture Visualization** - Explore the complete cloud architecture
-- **Tiered Structure** - Clear separation of concerns across six architectural tiers
-- **Bilingual Support** - Toggle between English and Spanish
-- **Dark/Light Mode** - Choose your preferred theme
-- **Detailed Component Breakdown** - Understand each layer's components and their interactions
+4. Open your browser to `http://localhost:5173`
+
+### Building for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+This will create a `dist` directory with optimized assets ready for deployment.
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## 🎨 Features
+
+### Interactive Architecture Visualization
+- Explore the complete cloud architecture through an intuitive interface
+- Detailed component breakdowns with descriptions and relationships
+- Visual representation of data flows and interactions
+
+### Tiered Structure
+- Six distinct architectural tiers with clear responsibilities
+- Detailed documentation for each component
+- Visual indicators for dependencies and relationships
+
+### User Experience
+- Dark/Light mode with system preference detection
+- Bilingual support (English/Spanish)
+- Responsive design that works on all devices
+- Keyboard navigation support
+- Smooth animations and transitions
+
+### Developer Experience
+- Hot Module Replacement (HMR) for fast development
+- TypeScript support
+- Linting and code formatting
+- Comprehensive documentation
 
 ## 🏗️ Project Structure
 
 ```
-.
-├── index.htm           # Interactive architecture documentation
-├── README.md          # Project documentation
-└── assets/            # Static assets (if any)
+dragon-stack-docs/
+├── public/                 # Static files
+│   ├── logo.svg            # Application logo
+│   └── sw.js               # Service Worker
+├── src/
+│   ├── assets/             # Static assets (images, fonts, etc.)
+│   ├── components/         # Reusable UI components
+│   ├── content/            # Documentation content
+│   ├── layouts/            # Page layouts
+│   ├── pages/              # Website pages
+│   ├── scripts/            # JavaScript files
+│   │   └── main.js         # Main application script
+│   ├── styles/             # CSS/Styles
+│   │   └── main.css        # Main stylesheet
+│   └── index.html          # Main HTML file
+├── .gitignore              # Git ignore file
+├── package.json            # Project configuration
+├── tailwind.config.js      # Tailwind CSS config
+├── postcss.config.js       # PostCSS config
+└── vite.config.js          # Vite config
 ```
+
+## 📚 Documentation
+
+This site serves as the official documentation for the DRAGON Stack. The documentation is organized into the following sections:
+
+- [Getting Started](docs/getting-started.md) - Introduction to DRAGON Stack
+- [Architecture](docs/architecture.md) - Overview of the architecture
+- [Concepts](docs/concepts.md) - Key concepts and principles
+- [Guides](docs/guides/) - Practical guides and tutorials
+- [Reference](docs/reference/) - API and technical reference
+
+## 🤝 Contributing to Documentation
+
+We welcome contributions to improve the documentation! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to contribute to this project.
+
+## 📜 Code of Conduct
+
+This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
+## 📄 License
+
+This documentation site is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. The DRAGON Stack itself may be subject to different licensing terms.
+
+## 🙏 Acknowledgments
+
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+- [Vite](https://vitejs.dev/) for the build tooling
+- [Font Awesome](https://fontawesome.com/) for the icons
+- All the amazing open source projects that made this documentation site possible
 
 ## 🤝 Contributing
 

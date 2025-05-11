@@ -3,140 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DRAGON Stack v10/10 - A comprehensive modern cloud architecture framework">
     <title>DRAGON Stack v10/10 - Modern Cloud Architecture</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/styles/main.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" as="style">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Inline critical CSS -->
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --secondary-color: #4f46e5;
-            --accent-color: #8b5cf6;
-        }
-        .dark {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --card-bg: #1e293b;
-        }
-        .dark .bg-blue-100, .dark .bg-green-100, .dark .bg-yellow-100, 
-        .dark .bg-red-100, .dark .bg-purple-100, .dark .bg-pink-100,
-        .dark .bg-indigo-100, .dark .bg-gray-100 {
-            color: #0f172a; /* Dark text for light backgrounds in dark mode */
-        }
-        .dark .bg-blue-200, .dark .bg-green-200, .dark .bg-yellow-200, 
-        .dark .bg-red-200, .dark .bg-purple-200, .dark .bg-pink-200,
-        .dark .bg-indigo-200, .dark .bg-gray-200 {
-            color: #0f172a; /* Dark text for light backgrounds in dark mode */
-        }
-        .dark pre {
-            color: #f8fafc; /* Ensure code is readable */
-        }
-        .light {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
-            --card-bg: #ffffff;
-        }
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            color: var(--text-primary);
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-        }
-        .progress-bar {
-            height: 8px;
-            background-color: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: 4px;
-        }
-        .tier-header {
-            position: relative;
-            margin-bottom: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-        .radar-chart {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto;
-        }
-        .radar-axis {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 1px;
-            transform-origin: center;
-        }
-        .radar-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 1px dashed var(--text-secondary);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .radar-point {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .tier-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-        .t0-badge { background-color: #3b82f6; color: white; }
-        .t1-badge { background-color: #10b981; color: white; }
-        .t2-badge { background-color: #f59e0b; color: white; }
-        .t3-badge { background-color: #ef4444; color: white; }
-        .t4-badge { background-color: #8b5cf6; color: white; }
-        .t5-badge { background-color: #ec4899; color: white; }
-        .rating-stars {
-            color: #f59e0b;
-            font-size: 1.25rem;
-        }
-        .hidden-lang {
-            display: none;
-        }
-        .component-diagram {
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-        .diagram-box {
-            padding: 1rem;
-            border: 2px solid var(--primary-color);
-            border-radius: 0.5rem;
-            margin: 0.5rem;
-            text-align: center;
-        }
-        .diagram-arrow {
-            font-size: 2rem;
-            color: var(--accent-color);
-        }
+        /* Critical CSS for above-the-fold content */
+        .hidden-lang { display: none; }
+        /* Add any critical CSS here */
     </style>
 </head>
 <body class="min-h-screen">
@@ -1446,53 +1330,22 @@ spec:
         </div>
     </footer>
 
-    <script>
-        // Theme toggle functionality
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-        
-        function toggleTheme() {
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-                htmlElement.classList.add('light');
-                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i><span class="ml-2">Theme</span>';
-            } else {
-                htmlElement.classList.remove('light');
-                htmlElement.classList.add('dark');
-                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i><span class="ml-2">Theme</span>';
-            }
-        }
-        
-        themeToggleBtn.addEventListener('click', toggleTheme);
-        
-        // Language toggle functionality
-        const langToggleBtn = document.getElementById('lang-toggle');
-        const currentLangSpan = document.getElementById('current-lang');
-        const enElements = document.querySelectorAll('.lang-en');
-        const esElements = document.querySelectorAll('.lang-es');
-        
-        function toggleLanguage() {
-            if (currentLangSpan.textContent === 'EN') {
-                currentLangSpan.textContent = 'ES';
-                enElements.forEach(el => el.classList.add('hidden-lang'));
-                esElements.forEach(el => el.classList.remove('hidden-lang'));
-            } else {
-                currentLangSpan.textContent = 'EN';
-                esElements.forEach(el => el.classList.add('hidden-lang'));
-                enElements.forEach(el => el.classList.remove('hidden-lang'));
-            }
-        }
-        
-        langToggleBtn.addEventListener('click', toggleLanguage);
-    </script>
+    <!-- Load main JavaScript -->
+    <script type="module" src="/src/scripts/main.js"></script>
 </body>
 </html>
-    <script id="html_badge_script1">
-        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
-            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDov4E8OS7tRgokL%2BacfsfVr01LlAnhZNispIayeTV46WP9bu%2BT%2Fv66S5Cqg4ogUQv70BTPzJh%2BILreFSeB%2Fm%2FEl9XymvFAdsUqNkcQLXeD451t6zc29vElbs%2F9%2Bkj9y%2BnzLQ1fPuOtvsGmjPEsCzgHdpMU%2BPfz86ZRpDA2T4AE0%2BbxYU%2FojhMrobPyRRCO6dh8bwcANnVBe9U6c4pbxFnT%2BVAmig01k5HRLi1TliNKrrP1khF0lniu48CRIzKq4RIWtpstLSXov1sDcEuOCntybwiuUgyT%2B9qsYvecsam2sHOk2vGB1OuVTKNZy5DUgSV6YKo12C3sv%2BhJppZwcvoH%2BBJiWjXMBH60WiYjTI76t7cdiib667noPpFiWcqLR6RrymIr503%2BRLAGYjRAABZwwB68DQnfamQLamUc%2Fl3ktO45oZ7MokdSPzKR2NUoXy9SRR5aVd8rhj0cbyABu%2BvGGkfF1ONmZJ03VpFLnjzbow1GLH4MPkLXHKfjZArCZR6gYkpIdmOlaAIvxLxVJeE98%3D";
-        window.__genspark_locale = "en-US";
-        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDov4E8OS7tRgokL+acfsfVr01LlAnhZNispIayeTV46WP9bu+T/v66S5Cqg4ogUQv70BTPzJh+ILreFSeB/m/El9XymvFAdsUqNkcQLXeD451t6zc29vElbs/9+kj9y+nzLQ1fPuOtvsGmjPEsCzgHdpMU+Pfz86ZRpDA2T4AE0+bxYU/ojhMrobPyRRCO6dh8bwcANnVBe9U6c4pbxFnT+VAmig01k5HRLi1TliNKrrP1khF0lniu48CRIzKq4RIWtpstLSXov1sDcEuOCntybwiuUgyT+9qsYvecsam2sHOk2vGB1OuVTKNZy5DUgSV6YKo12C3sv+hJppZwcvoH+BJiWjXMBH60WiYjTI76t7cdiib667noPpFiWcqLR6RrymIr503+RLAGYjRAABZwwB68DQnfamQLamUc/l3ktO45oZ7MokdSPzKR2NUoXy9SRR5aVd8rhj0cbyABu+vGGkfF1ONmZJ03VpFLnjzbow1GLH4MPkLXHKfjZArCZR6gYkpIdmOlaAIvxLxVJeE98=";
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
-    
-        <script id="html_badge_script2" src="https://www.genspark.ai/html_badge.js"></script>
         

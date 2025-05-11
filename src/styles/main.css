@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #6366f1;
+  --secondary-color: #4f46e5;
+  --accent-color: #8b5cf6;
+}
+
+/* Dark Theme */
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --card-bg: #1e293b;
+}
+
+/* Light Theme */
+.light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --card-bg: #ffffff;
+}
+
+/* Base Styles */
+body {
+  @apply min-h-screen bg-bg-primary text-text-primary transition-colors duration-300;
+}
+
+/* Card Styles */
+.card {
+  @apply bg-card-bg rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Tier Badges */
+.tier-badge {
+  @apply inline-block px-3 py-1 rounded-full font-bold mr-2 text-white;
+}
+
+.t0-badge { @apply bg-blue-600; }
+.t1-badge { @apply bg-green-600; }
+.t2-badge { @apply bg-yellow-600; }
+.t3-badge { @apply bg-red-600; }
+.t4-badge { @apply bg-purple-600; }
+.t5-badge { @apply bg-pink-600; }
+
+/* Utility Classes */
+.hidden-lang {
+  @apply hidden;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .component-diagram {
+    @apply grid-cols-1;
+  }
+}

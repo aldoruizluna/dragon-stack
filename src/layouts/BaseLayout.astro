@@ -1,0 +1,117 @@
+---
+// src/layouts/BaseLayout.astro
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'DRAGON Stack - Modern Cloud Architecture Framework' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    
+    <title>{title} | DRAGON Stack</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    
+    <!-- Scripts (deferred) -->
+    <script src="/src/scripts/main.js" type="module" defer></script>
+  </head>
+  
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- Skip to main content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg">
+      Skip to main content
+    </a>
+    
+    <!-- Header -->
+    <header class="bg-gray-900 text-white sticky top-0 z-40 shadow-lg">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <!-- Logo -->
+          <a href="/" class="flex items-center space-x-3 group">
+            <img src="/logo.svg" alt="DRAGON Stack Logo" class="h-10 w-10 transition-transform group-hover:scale-110" />
+            <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              DRAGON Stack
+            </span>
+          </a>
+          
+          <!-- Desktop Navigation -->
+          <nav class="hidden md:flex items-center space-x-8">
+            <a href="/" class="font-medium hover:text-blue-400 transition-colors duration-200">Home</a>
+            <a href="/docs/getting-started" class="font-medium hover:text-blue-400 transition-colors duration-200">Documentation</a>
+            <a href="https://github.com/aldoruizluna/dragon-stack" target="_blank" rel="noopener noreferrer" class="ml-4">
+              <span class="sr-only">GitHub</span>
+              <i class="fab fa-github text-2xl hover:text-blue-400 transition-colors duration-200"></i>
+            </a>
+          </nav>
+          
+          <!-- Mobile menu button -->
+          <div class="md:hidden flex items-center space-x-4">
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800 transition-colors duration-200" aria-label="Toggle dark mode">
+              <i class="fas fa-moon"></i>
+            </button>
+            <button id="mobile-menu-button" class="p-2 rounded-full hover:bg-gray-800 transition-colors duration-200" aria-label="Open menu">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-800">
+          <div class="flex flex-col space-y-3 mt-4">
+            <a href="/" class="block py-2 hover:text-blue-400 transition-colors duration-200">Home</a>
+            <a href="/docs/getting-started" class="block py-2 hover:text-blue-400 transition-colors duration-200">Documentation</a>
+            <a href="https://github.com/aldoruizluna/dragon-stack" target="_blank" rel="noopener noreferrer" class="flex items-center py-2 hover:text-blue-400 transition-colors duration-200">
+              <i class="fab fa-github mr-2"></i> GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow">
+      <slot />
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <p>&copy; {new Date().getFullYear()} DRAGON Stack. All rights reserved.</p>
+          </div>
+          <div class="flex space-x-6">
+            <a href="https://github.com/aldoruizluna/dragon-stack" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-200">
+              <span class="sr-only">GitHub</span>
+              <i class="fab fa-github text-2xl"></i>
+            </a>
+            <a href="#" class="hover:text-white transition-colors duration-200">
+              <span class="sr-only">Twitter</span>
+              <i class="fab fa-twitter text-2xl"></i>
+            </a>
+            <a href="#" class="hover:text-white transition-colors duration-200">
+              <span class="sr-only">Discord</span>
+              <i class="fab fa-discord text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
